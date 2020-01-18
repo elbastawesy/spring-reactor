@@ -1,1 +1,66 @@
+server:
+  port: ${sping-reactor.server.port:8098}
 
+spring:
+  application:
+    name: sping-reactor
+
+  # ============================
+  # = Postgres DB configurations
+  # ============================
+  datasource:
+    platform: ${sping-reactor.spring.datasource.platform:postgres}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/sping-reactor}
+    driverClassName: ${sping-reactor.spring.datasource.driverClassName:org.postgresql.Driver}
+    username: ${sping-reactor.spring.datasource.username:postgres}
+    password: ${sping-reactor.spring.datasource.password:admin}
+    initialization-mode: ${sping-reactor.spring.datasource.initialization-mode:always}
+    continue-on-error: ${sping-reactor.spring.datasource.continue-on-error:true}
+  jpa:
+    generate-ddl: ${sping-reactor.spring.jpa.generate-ddl:false}
+    database: ${sping-reactor.spring.jpa.database:POSTGRESQL}
+    database-platform: ${sping-reactor.spring.jpa.database-platform:org.hibernate.dialect.PostgreSQLDialect}
+    show-sql: ${sping-reactor.spring.jpa.show-sql:false}
+    hibernate:
+      ddl-auto: ${sping-reactor.spring.jpa.hibernate.ddl-auto:update}
+    properties:
+      hibernate:
+        dialect: ${sping-reactor.spring.jpa.properties.hibernate.dialect:org.hibernate.dialect.PostgreSQLDialect}
+        format_sql: ${sping-reactor.spring.jpa.properties.hibernate.format_sql:true}
+        jdbc:
+          lob:
+            non_contextual_creation: ${sping-reactor.spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation:true}
+  jackson:
+    serialization:
+      fail-on-empty-beans: ${sping-reactor.spring.jackson.serialization.fail-on-empty-beans:false}
+    parser:
+      allow-single-quotes: ${sping-reactor.spring.jackson.parser.allow-single-quotes:true}
+
+  #  rabbitmq:
+
+# =============================================
+# = Spring Boot Admin
+# =============================================
+
+  management:
+    endpoint:
+      health:
+        show-details: ${sping-reactor.management.endpoint.health.show-details:always}
+  endpoints:
+    web:
+      exposure:
+        include:  ${sping-reactor.management.endpoints.exposure.include:*}
+
+# =============================================
+# = Logging configurations
+# =============================================
+logging:
+  level:
+    org:
+      hibernate:
+        stat: ${sping-reactor.logging.level.org.hibernate.stat:debug}
+        type: ${sping-reactor.logging.level.org.hibernate.type:trace}
+    root: ${sping-reactor.logging.level.root:info}
+  pattern:
+    console: ${sping-reactor.logging.pattern.console:%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg %n}
+    file: ${sping-reactor.logging.file:logs/spring-reactor.log}
